@@ -13,6 +13,12 @@ class Point:
     
     def __mul__(self, other):
         return self.x * other.x + self.y * other.y
+    
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+    
+    def __ne__(self, other):
+        return not self == other
 
     def size(self):
         return math.sqrt(self.x * self.x + self.y * self.y)
