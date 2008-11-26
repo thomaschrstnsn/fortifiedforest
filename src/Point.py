@@ -19,6 +19,12 @@ class Point:
     
     def __ne__(self, other):
         return not self == other
+    
+    def __neg__(self):
+        return Point(-self.x, -self.y)
+    
+    def __abs__(self):
+        return Point(abs(self.x), abs(self.y))
 
     def size(self):
         return math.sqrt(self.x * self.x + self.y * self.y)
