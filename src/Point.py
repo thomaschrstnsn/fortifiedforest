@@ -31,3 +31,9 @@ class Point:
 
     def size(self):
         return math.sqrt(self.x * self.x + self.y * self.y)
+    
+    def perpdot(self, other):
+        return self.x * other.y - self.y * other.x
+
+    def dot(self, other):
+        return self * other
