@@ -1,5 +1,25 @@
 from Forest import *
 
+class Solution:
+    def __init__(self, forest):
+        self.forest = forest
+        self.isDone = False
+        self.treesCut = []
+        self.extraWood = 0.0
+    
+    def __str__(self):
+        return """Forest %d
+Completed solution: %d
+""" % (self.forest.id, self.isDone)
+
+def bruteforce(forest):
+    result = Solution(forest)
+    
+    numTrees = len(forest.trees)
+    print 2 ** numTrees
+    
+    return result
+
 def main():
     """ Trying to solve the problem described here: 
             http://www.karrels.org/Ed/ACM/99/prob_d.html
@@ -13,8 +33,8 @@ def main():
 """
     it = ForestsFromFile('test/data/simple_forest')
     for f in it:
-        for t in f.trees:
-            print t
+        sol = bruteforce(f)
+        print sol
 
 if __name__ == "__main__":
     main()    

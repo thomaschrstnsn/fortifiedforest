@@ -15,6 +15,7 @@ class Forest:
     "Representation of a forest"
     def __init__(self):
         self.trees = []
+        self.id = None
         
     def __nonzero__(self):
         return len(self.trees) != 0
@@ -39,6 +40,7 @@ class ForestsFromFile:
     def __init__(self, filename):
         self.filename = filename
         self.file = None
+        self.nextid = 1
     
     def __iter__(self):
         return self
@@ -71,6 +73,8 @@ class ForestsFromFile:
             for i in range(0, numTrees):
                 tree = self._readtree()
                 forest.addTree(tree)
+            forest.id = self.nextid
+            self.nextid = self.nextid + 1
             return forest
         except:
             raise
