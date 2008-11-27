@@ -5,15 +5,10 @@ from Path import Path
 
 class PathTestCase(unittest.TestCase):
     def setUp(self):
-        p0 = Point(1, 2)
-        p1 = Point(2, 3)
-        p2 = Point(4, 5)
-        p3 = Point(6, 7)
-        
-        self.l0 = Line(p0, p1)
-        self.l1 = Line(p1, p2)
-        self.l2 = Line(p2, p3)
-        self.l3 = Line(p3, p0)
+        self.p0 = Point(1, 2)
+        self.p1 = Point(2, 3)
+        self.p2 = Point(4, 5)
+        self.p3 = Point(6, 7)
 
     def testEmpty(self):
         emptyPath = Path()
@@ -22,30 +17,26 @@ class PathTestCase(unittest.TestCase):
     
     def testValid(self):
         validPath = Path()
-        validPath.addLine(self.l0)
-        validPath.addLine(self.l1)
-        validPath.addLine(self.l2)
-        validPath.addLine(self.l3)
+        validPath.addPoint(self.p0)
+        validPath.addPoint(self.p1)
+        validPath.addPoint(self.p2)
+        validPath.addPoint(self.p0)
         self.assertTrue(validPath.isConnected())
     
     def testDisconnected(self):
         disconnectedPath = Path()
-        disconnectedPath.addLine(self.l0)
-        disconnectedPath.addLine(self.l1)
-        disconnectedPath.addLine(self.l2)
+        disconnectedPath.addPoint(self.p0)
+        disconnectedPath.addPoint(self.p1)
+        disconnectedPath.addPoint(self.p2)
         self.assertFalse(disconnectedPath.isConnected())
 
-    def testHole(self):
-        holePath = Path()
-        holePath.addLine(self.l0)
-        holePath.addLine(self.l1)
-        holePath.addLine(self.l3)
-        self.assertFalse(holePath.isConnected())
-    
     def testLength(self):
-        p0 = Path()
-        p0.addLine(self.l0)
+        p = Path()
+        p.addPoint(self.p0)
+        p.addPoint(self.p1)
         
-        self.assertEquals(p0.length(), self.l0.length())
-        p0.addLine(self.l1)
-        self.assertEquals(p0.length(), self.l0.length() + self.l1.length())
+        l0 = Line(self.p0, self.p1)
+        l1 = Line(self.p1, self.p2)
+        self.assertEquals(p.length(), l0.length())
+        p.addPoint(self.p2)
+        self.assertEquals(p.length(), l0.length() + l1.length())

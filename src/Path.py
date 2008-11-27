@@ -1,24 +1,19 @@
+from Line import Line
 
 class Path:
     def __init__(self):
-        self.lines = []
+        self.points = []
         
-    def addLine(self, line):
-        self.lines.append(line)
+    def addPoint(self, point):
+        self.points.append(point)
     
     def length(self):
         result = 0
-        for line in self.lines:
+        for i in range(0, len(self.points) - 1):
+            line = Line(self.points[i], self.points[i+1])
             result = result + line.length()
         return result
     
     def isConnected(self):
-        if len(self.lines) == 0: return False
-        for i in range(0, len(self.lines) - 1):
-            l1 = self.lines[i]
-            l2 = self.lines[i+1]
-            if l1.p2 != l2.p1:
-                return False
-        if self.lines[-1].p2 != self.lines[0].p1:
-            return False
-        return True
+        if len(self.points) < 2: return False
+        return self.points[0] == self.points[-1]
