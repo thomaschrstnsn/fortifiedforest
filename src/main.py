@@ -1,4 +1,5 @@
 from Forest import *
+from BitFieldListIterator import BitFieldListIterator
 
 class Solution:
     def __init__(self, forest):
@@ -16,7 +17,16 @@ def bruteforce(forest):
     result = Solution(forest)
     
     numTrees = len(forest.trees)
-    print 2 ** numTrees
+    bitit = BitFieldListIterator(numBits = numTrees, startValue = 1, stepsize = 1, zeroIndexed = True)
+    for cutIndices in bitit:
+        numTreesToCut = len(cutIndices)
+        if numTreesToCut is 0 or numTreesToCut is numTrees:
+            "No need to cut nothing or everything"
+            continue
+
+        cutTrees = set([forest.trees[index] for index in cutIndices])
+        remainingTrees = set(forest.trees) - cutTrees
+        print "cut", len(cutTrees), "remaining",  len(remainingTrees)
     
     return result
 
