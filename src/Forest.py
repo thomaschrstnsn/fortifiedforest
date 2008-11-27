@@ -6,6 +6,7 @@ class Tree:
         self.position = position
         self.value = value
         self.length = length
+        self.id = None
     
     def __repr__(self):
         return "Tree(%s,%s,%s)" % (self.position, self.value, self.length)
@@ -18,8 +19,12 @@ class Forest:
     def __nonzero__(self):
         return len(self.trees) != 0
     
+    def __str__(self):
+        return "<... forest with %d trees ...>" % len(self.trees)
+    
     def addTree(self, tree):
         self.trees.append(tree)
+        tree.id = len(self.trees)
 
 class ForestParsingError(Exception):
     def __init__(self, input, msg):
@@ -76,6 +81,6 @@ class ForestsFromFile:
                 self.file = open(self.filename, 'ra')
             return self._readforest()
         except (StopIteration, IOError):
-            self.file.close()
+            if self.file is not None: self.file.close()
             self.file = None
             raise
