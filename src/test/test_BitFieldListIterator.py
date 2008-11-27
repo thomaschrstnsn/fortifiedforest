@@ -6,12 +6,24 @@ class BitFieldListIteratorTestCase(unittest.TestCase):
         self.zeroToFifteen = {0:[], 1:[1], 2:[2], 3:[1,2], 4:[3], 5:[1,3], 6:[2,3], 7:[1,2,3],
                               8:[4], 9:[1,4], 10:[2,4], 11:[1,2,4], 12:[3,4], 13:[1,3,4], 
                               14:[2,3,4], 15:[1,2,3,4]}
+        
+        self.zeroToFifteenZeroIndex = {}
+        for k in self.zeroToFifteen.keys():
+            self.zeroToFifteenZeroIndex[k] = [x - 1 for x in self.zeroToFifteen[k]]
     
-    def testZeroToSixteen(self):
+    def testZeroToFifteen(self):
         bfit = BitFieldListIterator(4)
         expected = 0
         for bf in bfit:
             self.assertEquals(bf, self.zeroToFifteen[expected])
+            expected = expected + 1
+        self.assertEquals(expected, 16) # last iteration was 15, next expected must be 16
+
+    def testZeroToFifteenZeroIndex(self):
+        bfit = BitFieldListIterator(4, zeroIndexed = True)
+        expected = 0
+        for bf in bfit:
+            self.assertEquals(bf, self.zeroToFifteenZeroIndex[expected])
             expected = expected + 1
         self.assertEquals(expected, 16) # last iteration was 15, next expected must be 16
     
