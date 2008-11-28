@@ -1,5 +1,6 @@
 from Forest import *
 from BitFieldListIterator import BitFieldListIterator
+from ConvexHull import jarviswalk
 
 class Solution:
     def __init__(self, forest):
@@ -7,11 +8,13 @@ class Solution:
         self.isDone = False
         self.treesCut = []
         self.extraWood = 0.0
+        self.maxValue = 0
     
     def __str__(self):
         return """Forest %d
-Completed solution: %d
-""" % (self.forest.id, self.isDone)
+Cut these trees: %s
+Extra wood: %f
+""" % (self.forest.id, self.treesCut, self.extraWood)
 
 def bruteforce(forest):
     result = Solution(forest)
@@ -19,14 +22,26 @@ def bruteforce(forest):
     numTrees = len(forest.trees)
     bitit = BitFieldListIterator(numBits = numTrees, startValue = 1, stepsize = 1, zeroIndexed = True)
     for cutIndices in bitit:
+        print "iteration %d/%d" % (bitit.current, bitit.max)
         numTreesToCut = len(cutIndices)
         if numTreesToCut is 0 or numTreesToCut is numTrees:
             "No need to cut nothing or everything"
             continue
 
-        cutTrees = set([forest.trees[index] for index in cutIndices])
-        remainingTrees = set(forest.trees) - cutTrees
+        cutTrees = [forest.trees[index] for index in cutIndices]
+        remainingTrees = filter(lambda x: x not in cutTrees, forest.trees)
         print "cut", len(cutTrees), "remaining",  len(remainingTrees)
+        potentialvalue = sum(map(lambda x: x.value, remainingTrees))
+        if potentialvalue < result.maxValue: continue
+        
+        convexhull = jarviswalk([tree.position for tree in remainingTrees])
+        requiredWood = convexhull.length()
+        cutWood = sum(map(lambda x: x.length, cutTrees))
+        if cutWood >= requiredWood:
+            result.isDone = True
+            result.treesCut = cutTrees
+            result.maxValue = potentialvalue
+            result.extraWood = cutWood - requiredWood
     
     return result
 
