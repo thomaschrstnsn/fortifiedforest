@@ -1,5 +1,6 @@
 import unittest
 from Point import Point
+import math
 
 class PointTestCase(unittest.TestCase):
     def setUp(self):
@@ -34,3 +35,11 @@ class PointTestCase(unittest.TestCase):
         self.assertEquals(p - p, self.p0)
         self.assertEquals(p - q, Point(8, -6))
         self.assertEquals(q - p, Point(-8, 6))
+        
+    def testDistanceTo(self):
+        p = Point(3,4)
+        q = Point(4,5)
+        
+        self.assertEquals(p.distanceTo(q), q.distanceTo(p))
+        self.assertEquals(p.distanceTo(q), math.sqrt(2))
+        self.assertEquals(p.distanceTo(self.p0), 5.0)

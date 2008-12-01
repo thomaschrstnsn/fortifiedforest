@@ -14,7 +14,9 @@ class Solution:
         return """Forest %d
 Cut these trees: %s
 Extra wood: %f
-""" % (self.forest.id, self.treesCut, self.extraWood)
+""" % (self.forest.id, 
+       [self.forest.trees.index(t)+1 for t in self.treesCut],
+       self.extraWood)
 
 def bruteforce(forest):
     result = Solution(forest)

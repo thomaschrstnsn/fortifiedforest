@@ -32,6 +32,9 @@ class Point:
     def size(self):
         return math.sqrt(self.x * self.x + self.y * self.y)
     
+    def distanceTo(self, other):
+        return (self - other).size()
+    
     def perpdot(self, other):
         return self.x * other.y - self.y * other.x
 
